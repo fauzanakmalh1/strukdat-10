@@ -4,7 +4,7 @@ Nama            : Fauzan Akmal Hariz
 NPM             : 140810180005
 Tanggal buat    : 14 Mei 2019
 Deskripsi       : Praktikum - Binary Search Tree
-*****************************************/
+***********************************************/
 
 #include <iostream>
 #include <stdlib.h>
@@ -28,8 +28,9 @@ void createBinaryTree(Tree& root)
 void createSimpul(pointer& pBaru)
 {
 	pBaru=new simpul;
-	cout<<"Info	: "; cin>>pBaru->info;
-	pBaru->left=pBaru->right=NULL;
+	cout<<"Masukan Simpul : "; cin>>pBaru->info;
+	pBaru->left=NULL;
+	pBaru->right=NULL;
 }
 
 void insertBST(Tree& root, pointer pBaru)
@@ -37,23 +38,31 @@ void insertBST(Tree& root, pointer pBaru)
 	if(root==NULL)
     {
 		root=pBaru;
-		cout<<root->info<<" ";
 	}
 	else if(pBaru->info < root->info)
 	{
 		insertBST(root->left,pBaru);
-		cout<<root->info<<" ";
 	}
 	else if(pBaru->info > root->info)
 	{
 		insertBST(root->right,pBaru);
-		cout<<root->info<<" ";
 	}
 	else
 	{
-		cout<<"Data Sudah Ada"<<endl;
-		cout<<root->info<<" ";
+		cout<<"Sudah Ada"<<endl;
 	}
+}
+
+void notasiKurung (Tree root)
+{
+    if (root!=NULL)
+    {
+        cout<<"(";
+        cout<<root->info <<" ";
+        notasiKurung(root->left);
+        notasiKurung(root->right);
+        cout<<")";
+    }
 }
 
 void preOrder(Tree root)
@@ -130,19 +139,27 @@ void levelOrder(Tree root)
     }
 }
 
-
 int main()
 {
 	Tree root;
 	pointer pBaru;
-	int pilih;
+	int n, pilih;
 
     cout<<"============================================" <<endl;
     cout<<"Selamat Datang Di Program Binary Search Tree" <<endl;
     cout<<"============================================" <<endl <<endl;
-    system("pause");
 
-	createBinaryTree(root);
+ 	createBinaryTree(root);
+
+    cout<<"Masukan Banyak Simpul : "; cin>>n; cout<<endl;
+    for(int i=0; i<n; i++)
+    {
+        createSimpul(pBaru);
+        insertBST(root,pBaru);
+    }
+    cout<<"Tree : "; notasiKurung(root); cout<<endl;
+
+    system("pause");
 
 	do
     {
@@ -150,43 +167,37 @@ int main()
         cout<<"========================="<<endl;
 		cout<<"        Pilihan Menu     "<<endl;
 		cout<<"========================="<<endl;
-		cout<<"1. Tambah Data"<<endl;
-		cout<<"2. Traversal PreOrder"<<endl;
-		cout<<"3. Traversal InOrder"<<endl;
-		cout<<"4. Traversal PostOrder"<<endl;
-		cout<<"5. Traversal Level Order"<<endl;
-		cout<<"6. Kedalaman Pohon"<<endl;
-		cout<<"7. Keluar"<<endl <<endl;
+		cout<<"1. Traversal PreOrder"<<endl;
+		cout<<"2. Traversal InOrder"<<endl;
+		cout<<"3. Traversal PostOrder"<<endl;
+		cout<<"4. Traversal Level Order"<<endl;
+		cout<<"5. Kedalaman Pohon"<<endl;
+		cout<<"6. Keluar"<<endl <<endl;
 
 		cout<<"Masukkan pilihan : "; cin>>pilih; cout<<endl;
 
 		switch(pilih)
 		{
             case 1:
-                createSimpul(pBaru);
-                insertBST(root,pBaru);
-                cout<<endl <<"Data Baru Berhasil Ditambah" <<endl;
-                break;
-            case 2:
                 preOrder(root);
                 cout<<endl;
                 break;
-            case 3:
+            case 2:
                 inOrder(root);
                 cout<<endl;
                 break;
-            case 4:
+            case 3:
                 postOrder(root);
                 cout<<endl;
                 break;
-            case 5:
+            case 4:
                 levelOrder(root);
                 cout<<endl;
                 break;
-            case 6:
+            case 5:
                 cout<<"Kedalaman pohon : " <<depth(root)<<endl;
                 break;
-            case 7:
+            case 6:
                 cout<<"Terima Kasih Telah Menggunakan Program Ini" <<endl;
                 return 0;
                 break;
@@ -195,6 +206,6 @@ int main()
                 break;
         }
         system("pause");
-	} while(pilih!=7);
+	} while(pilih!=6);
 	return 0;
 }
